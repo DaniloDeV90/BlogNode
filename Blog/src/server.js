@@ -7,6 +7,7 @@ const admin = require ("./routes/admin")
 const session = require ("express-session")
 const flash = require ("connect-flash")
 const Post = require ("./model/Postagem")
+const path =  require ("path")
 const Categoria = require ("./model/Categoria")
 //Session
 app.use (session ( {
@@ -40,8 +41,8 @@ app.engine('handlebars', handlebars.engine({
 //moongose
 const mongoose = require ("mongoose");
 const Postagem = require("./model/Postagem");
-  mongoose.connect('mongodb+srv://duh:123@cluster0.hbmk4w5.mongodb.net/?retryWrites=true&w=majority')
-  .then(() => console.log('Connected!')).catch ((e) => console.log (e));
+mongoose.connect('mongodb://127.0.0.1:27017/BlogBd')
+  .then(() => console.log('Connected!'));
 
 
   module.exports = mongoose;
@@ -49,7 +50,7 @@ const Postagem = require("./model/Postagem");
 app.set('view engine', 'handlebars');
 
 app.set("view engine", "handlebars")
-app.set ("views", './views')
+app.set ("views", path.join (__dirname,'./views'))
 //
 //public
 

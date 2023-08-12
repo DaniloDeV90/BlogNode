@@ -1,4 +1,12 @@
+
 {
+  "name": "seu-projeto",
+  "version": "1.0.0",
+  "scripts": {
+    "server": "nodemon src/server.js"
+  
+  },
+
   "dependencies": {
     "connect-flash": "^0.1.1",
     "express": "^4.18.2",

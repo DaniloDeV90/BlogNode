@@ -3,7 +3,7 @@
   "name": "seu-projeto",
   "version": "1.0.0",
   "scripts": {
-    "server": "nodemon src/server.js"
+    "start": "nodemon src/server.js"
 
   
   },

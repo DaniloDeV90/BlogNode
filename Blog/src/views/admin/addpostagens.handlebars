@@ -1,0 +1,36 @@
+
+{{#each erros}} 
+<div class="alert alert-danger"> {{text}} </div>
+
+{{/each}}
+<div class="card">
+
+    <div class="card-body">
+        <h4>Nova postagem</h4>
+        <form action="/admin/postagens/nova" method="post">
+
+            <label for="">Titulo: </label>
+            <input type="text" name="titulo" class="form-control" required = "true">
+
+            <label for="">Slug: </label>
+            <input type="text" name="slug" class="form-control" required = "true">
+
+            <label for="descricao">Descricao: </label>
+            <input type="text" name="descricao" class="form-control" required = "true">
+
+            <label for="conteudo">Conteudo: </label>
+            <textarea name="conteudo"  class="form-control"></textarea>
+            <label for="" class="form-control"> Categoria: </label>
+            <select name="categoria" id="" class="form-control" > 
+             
+                {{#each categorias}}
+                <option value="{{_id}}">{{nome}}</option>
+                {{else}}
+                  <option value="0" >sem categorias</option>
+                {{/each}}
+            </select>
+            <br>
+            <button class="btn   btn-success mt-3" type="submit">postagem</button>
+        </form>
+    </div>
+</div>

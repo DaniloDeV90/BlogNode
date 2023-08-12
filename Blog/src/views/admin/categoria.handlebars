@@ -1,0 +1,25 @@
+<h2>Lista de categorias</h2>
+<hr>
+ 
+ <a href="/admin/categorias/add"> <button class="btn btn-success">Nova categoria</button></a>
+
+
+<hr>
+
+
+ {{#each findAll}}
+
+<p> Nome:  {{nome}} </p>
+<p>Slug:  {{slug}}</p>
+<p>Created: {{date}}</p>
+{{#if update}}
+<p>Updated: {{update}}</p>
+{{/if}}
+
+<a href="/admin/categorias/editar/{{_id}}" > <button class=" btn btn-success"> Editar</button></a>
+ <a href="/admin/categorias/deletar/{{_id}}"><button class="btn btn-danger" > Apagar </button></a> 
+<hr>
+
+{{else}}
+<h1>Nenhuma categoria</h1>
+ {{/each}}

@@ -50,7 +50,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/BlogBd')
 app.set('view engine', 'handlebars');
 
 app.set("view engine", "handlebars")
-app.set ("views", path.join (__dirname,'./views'))
+app.set ("views", path.join (__dirname,'/views'))
 //
 //public
 

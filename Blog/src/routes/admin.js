@@ -1,15 +1,15 @@
 const express = require("express")
 const Categoria = require("../model/Categoria");
 const Post = require("../model/Postagem");
-
+const  {edmin} = require ("../helpers/eadmin")
 const router = express.Router();
 
 
-router.get('/', (req, res) => {
+router.get('/',edmin, (req, res) => {
     res.send("Pagina pricipal do painel ADM")
 
 })
-router.get('/posts', (req, res) => {
+router.get('/posts',edmin, (req, res) => {
     res.send("Pagina de post")
 
 
@@ -19,14 +19,14 @@ router.get('/posts', (req, res) => {
 
 //Categorias
 
-router.get("/categorias", async (req, res) => {
+router.get("/categorias",edmin, async (req, res) => {
 
     const findAll = await (Categoria.find({})).catch(() => req.flash("error_msg", "Houve um erro ao listar"))
 
     res.render("admin/categoria", { findAll })
 })
 
-router.get("/categorias/add", (req, res) => {
+router.get("/categorias/add",edmin, (req, res) => {
 
     res.render("admin/addcategoria")
 })
@@ -53,7 +53,7 @@ function ErrorsVerify(nome, slug) {
 }
 
 
-router.post("/categorias/nova", (req, res) => {
+router.post("/categorias/nova",edmin, (req, res) => {
 
 
     let erros = ErrorsVerify(req.body.nome, req.body.slug)
@@ -85,12 +85,12 @@ router.post("/categorias/nova", (req, res) => {
 
 
 
-router.get("/categorias/deletar/:id", async (req, res) => {
+router.get("/categorias/deletar/:id",edmin, async (req, res) => {
 
     await Categoria.deleteOne({ _id: req.params.id }).then(() => res.redirect("/admin/categorias")).catch(() => res.send("erro"));
 })
 
-router.get("/categorias/editar/:id", async (req, res) => {
+router.get("/categorias/editar/:id",edmin, async (req, res) => {
 
     const { id } = req.params
 
@@ -103,7 +103,7 @@ router.get("/categorias/editar/:id", async (req, res) => {
     })
 })
 
-router.post("/editar/catego", async (req, res) => {
+router.post("/editar/catego",edmin, async (req, res) => {
     const { id } = req.body
     const categoria = await Categoria.findOne({ _id: id })
     let erros = ErrorsVerify(req.body.nome, req.body.slug)
@@ -126,7 +126,7 @@ router.post("/editar/catego", async (req, res) => {
 
 
 
-router.get("/postagens", async (req, res) => {
+router.get("/postagens",edmin, async (req, res) => {
     await Post.find({}).lean().populate('categoria').sort({ data: 'desc' }).then((postagens) => res.render("admin/postagens", { postagens })).catch(() => {
         req.flash("error_msg", "falha ao recuperar dados")
         res.redirect("admin/postagens")
@@ -135,7 +135,7 @@ router.get("/postagens", async (req, res) => {
 
 })
 
-router.get("/postagens/add", async (req, res) => {
+router.get("/postagens/add",edmin, async (req, res) => {
     await Categoria.find({}).then((categorias => {
         res.render("admin/addpostagens", { categorias })
     })).catch(() => {
@@ -145,7 +145,7 @@ router.get("/postagens/add", async (req, res) => {
 
 })
 
-router.post("/postagens/nova", (req, res) => {
+router.post("/postagens/nova",edmin, (req, res) => {
     let erros = []
 
     if (req.body.categoria == "0") erros.push({ text: "Categoria inválida" })
@@ -194,27 +194,27 @@ router.get("/postagens/edit/:id", async (req, res) => {
 router.post("/postagens/editar", async (req, res) => {
 
     await Post.findByIdAndUpdate(req.body.id, { titulo: req.body.titulo, slug: req.body.slug, conteudo: req.body.conteudo, categoria: req.body.categoria, descricao: req.body.descricao }).then(() => {
-        req.flash("success_msg", "Postagem editada com sucesso!!") 
-    }).catch((erro) => req.flash ("error_msg", "Erro ao editar postagem"))
-    .finally (() => {
-        res.redirect("/admin/postagens")
-    })
+        req.flash("success_msg", "Postagem editada com sucesso!!")
+    }).catch((erro) => req.flash("error_msg", "Erro ao editar postagem"))
+        .finally(() => {
+            res.redirect("/admin/postagens")
+        })
 
 
 })
 
-router.post ("/postagens/deletar/:id",async(req,res) => {
+router.post("/postagens/deletar/:id", async (req, res) => {
 
 
-    await Post.deleteOne ({_id: req.params.id}).then ( () => {
-      req.flash ("success_msg", "post apagado com sucesso!!")
-    }) .catch (() => {
-        req.flash ("error_msg", "erro ao apagar  post!!")
+    await Post.deleteOne({ _id: req.params.id }).then(() => {
+        req.flash("success_msg", "post apagado com sucesso!!")
+    }).catch(() => {
+        req.flash("error_msg", "erro ao apagar  post!!")
     })
-    .finally (() => {
-        res.redirect("/admin/postagens")
-    })
-    
+        .finally(() => {
+            res.redirect("/admin/postagens")
+        })
+
 })
 
 

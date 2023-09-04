@@ -1,0 +1,27 @@
+<h3>Cria sua conta!</h3>
+{{#each erros}}
+
+<div class="alert alert-danger"> {{texto}}</div>
+
+
+{{/each}}
+<div class="card">
+
+    <div class="card-body">
+        <form action="/usuarios/registro" method="POST">
+            <label for="nome"  >nome: </label>
+            <input type="text" name="nome" class="form-control" value="{{form.nome}}" required>
+
+            <label for="email" >Email</label>
+            <input type="email" name="email"  class="form-control"  value="{{form.email}}"required>
+
+            <label for="senha">Senha: </label>
+            <input type="password" name="senha" value="{{form.senha}}"  class="form-control" required>
+
+              <label for="senha">Confirmar senha: </label>
+            <input type="password" name="senha2" value="{{form.senha2}}"  class="form-control" required>
+
+            <button type="submit" class="btn btn-success mt-4">Cadastrar</button>
+        </form>
+    </div>
+</div>
